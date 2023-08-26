@@ -1,13 +1,43 @@
-package org.example;
+package edu.unq.bdd;
+
+import edu.unq.bdd.adapter.compiler.CommandCompiler;
+import edu.unq.bdd.adapter.compiler.Compiler;
+import edu.unq.bdd.domain.bytecode.ByteCode;
+import edu.unq.bdd.domain.virtualmachine.ExecutionResult;
+import edu.unq.bdd.domain.virtualmachine.UnaTablaVM;
+import edu.unq.bdd.domain.virtualmachine.VirtualMachine;
+
+import java.util.Scanner;
 
 /**
  * Hello world!
- *
  */
-public class App 
-{
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+public class App {
+
+    public static void main(String[] args) {
+
+        CommandCompiler compiler = new Compiler();
+        VirtualMachine vm = new UnaTablaVM();
+
+        Scanner scanner = new Scanner(System.in);
+        String command;
+
+        System.out.println("Una Tabla REPL");
+        System.out.println("Type '.exit' to quit.");
+
+        while (true) {
+            System.out.print("sql>");
+            command = scanner.nextLine();
+
+            ByteCode byteCode = compiler.parse(command);
+            ExecutionResult result = vm.run(byteCode);
+
+            System.out.println(result.getData());
+            if (result.isTerminate()) {
+                break;
+            }
+        }
+
+        scanner.close();
     }
 }

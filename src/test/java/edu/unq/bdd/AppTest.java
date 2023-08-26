@@ -1,4 +1,4 @@
-package org.example;
+package edu.unq.bdd;
 
 import static org.junit.Assert.assertTrue;
 

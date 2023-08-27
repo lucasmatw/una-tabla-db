@@ -25,7 +25,7 @@ git clone git@github.com:lucasmatw/una-tabla-db.git
 2. Ejecutar el `run.sh` en el root de proyecto
 
 ```bash
-cd una-tabla-d
+cd una-tabla-db
 sh run.sh
 ```
 

@@ -32,8 +32,8 @@ public class App {
             ByteCode byteCode = compiler.parse(command);
             ExecutionResult result = vm.run(byteCode);
 
-            System.out.println(result.getData());
-            if (result.isTerminate()) {
+            System.out.println(result.data());
+            if (result.terminate()) {
                 break;
             }
         }

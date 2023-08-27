@@ -10,4 +10,8 @@ public class OperationFactory {
     public static Operation buildExit(){
         return new Operation(OpCode.EXIT);
     }
+
+    public static Operation buildInvalidCommand(){
+        return new Operation(OpCode.INVALID);
+    }
 }

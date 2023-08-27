@@ -7,26 +7,30 @@ public class UnaTablaVM implements VirtualMachine {
 
     @Override
     public ExecutionResult run(ByteCode byteCode) {
-        ExecutionState state = ExecutionState.empty();
-
-        for (Operation op : byteCode.getOperations()) {
-            state = executeOperation(op, state);
-        }
-        return buildResult(state);
+        ExecutionState finalState = byteCode.getOperations().stream()
+                .reduce(ExecutionState.empty(), (state, op) -> executeOperation(op, state),
+                        (s1, s2) -> s2);
+        return buildResult(finalState);
     }
 
     private ExecutionResult buildResult(ExecutionState state) {
         return new ExecutionResult(state.getResult(), state.isTerminate());
     }
 
-
     private ExecutionState executeOperation(Operation operation, ExecutionState state){
         switch (operation.getOpCode()) {
             case EXIT:
                 return executeExit();
-            default:
+            case SELECT:
+            case INSERT:
                 return executeNotImplemented(operation);
+            default:
+                return executeInvalidCommand();
         }
+    }
+
+    private ExecutionState executeInvalidCommand() {
+        return new ExecutionState("Comando inválido", false);
     }
 
     private ExecutionState executeExit() {

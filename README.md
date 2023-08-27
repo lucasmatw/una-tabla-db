@@ -26,7 +26,8 @@ git clone git@github.com:lucasmatw/una-tabla-db.git
 
 ```bash
 cd una-tabla-db
-sh run.sh
+chmod +x run.sh
+./run.sh
 ```
 
 El `run.sh` hace el build de la imagen y la corre en un container.

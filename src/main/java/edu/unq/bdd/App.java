@@ -22,9 +22,6 @@ public class App {
         Scanner scanner = new Scanner(System.in);
         String command;
 
-        System.out.println("Una Tabla REPL");
-        System.out.println("Type '.exit' to quit.");
-
         while (true) {
             System.out.print("sql>");
             command = scanner.nextLine();

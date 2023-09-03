@@ -1,12 +1,15 @@
 package edu.unq.bdd.domain.bytecode;
 
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+
+import java.util.List;
 
 
 @Getter
-@AllArgsConstructor
+@Builder
 public class Operation {
     private OpCode opCode;
+    private List<String> fields;
 }

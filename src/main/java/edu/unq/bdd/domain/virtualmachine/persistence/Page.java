@@ -16,7 +16,7 @@ public class Page {
 
     public void save(byte[] byteChunk) {
         if (insufficientSpace(byteChunk.length)) {
-            throw new StackOverflowError("Page sin espacio suficiente");
+            throw new IllegalStateException("Page sin espacio suficiente");
         }
 
         insertIn(currentIndex, byteChunk);

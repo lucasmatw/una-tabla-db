@@ -42,9 +42,11 @@ public abstract class Storage<T> {
     protected abstract T deserialize(byte[] bytes);
 
     protected abstract byte[] serialize(T entity);
+
     protected abstract int recordSize();
+
     private void increaseRecords() {
-        records ++;
+        records++;
     }
 
     private void ensureSpace(int size) {

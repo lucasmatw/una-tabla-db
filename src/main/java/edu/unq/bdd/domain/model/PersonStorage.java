@@ -75,7 +75,6 @@ public class PersonStorage extends Storage<Person> {
 
     private byte[] serializeInt(int i) {
         return Bytes.from(i).array();
-//        return new byte[]{(byte) ((i >> 24) & 0xFF), (byte) ((i >> 16) & 0xFF), (byte) ((i >> 8) & 0xFF), (byte) (i & 0xFF)};
     }
 
     private byte[] serializeStringInLength(String str, int length) {

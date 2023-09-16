@@ -10,4 +10,4 @@ COPY . /usr/src/mymaven
 #Compile the Java application
 RUN mvn compile assembly:single
 
-CMD java -cp target/una-tabla-db-1.0-SNAPSHOT-jar-with-dependencies.jar edu.unq.bdd.App
+CMD java -jar target/una-tabla-db-1.0-SNAPSHOT-jar-with-dependencies.jar "app.db"

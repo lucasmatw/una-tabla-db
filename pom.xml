@@ -108,7 +108,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>fully.qualified.MainClass</mainClass>
+                            <mainClass>edu.unq.bdd.App</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

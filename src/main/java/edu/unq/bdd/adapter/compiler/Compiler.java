@@ -23,13 +23,13 @@ public class Compiler implements CommandCompiler {
     }
 
     private List<Operation> parseOperations(String input) {
-        if(input.startsWith(SELECT_CMD)){
+        if (input.startsWith(SELECT_CMD)) {
             return parseSelect();
         } else if (input.startsWith(INSERT_CMD_PREFIX)) {
             return parseInsert(input);
         } else if (input.equals(EXIT_CMD)) {
             return parseExit();
-        } else if (input.equals(METADATA_CMD)){
+        } else if (input.equals(METADATA_CMD)) {
             return parseMetadata();
         } else {
             return unrecognizedCommand();

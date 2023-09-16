@@ -1,42 +1,44 @@
 package edu.unq.bdd.domain.virtualmachine.persistence;
 
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public abstract class Storage<T> {
 
-    private final int pageSize;
-    private final LinkedList<Page> pages;
+    private final Pager pager;
 
-    private int records;
 
-    public Storage(int pageSize) {
-        this.pageSize = pageSize;
-        pages = new LinkedList<>();
-        pages.add(new Page(pageSize));
-        records = 0;
+    public Storage(Pager pager) {
+        this.pager = pager;
     }
 
     public void save(T entity) {
         byte[] serialized = serialize(entity);
+        getLastPage().save(serialized);
+    }
 
-        ensureSpace(serialized.length);
-        pages.getLast().save(serialized);
-        increaseRecords();
+    private Page getLastPage() {
+        int pageId = pager.pageCount() == 0 ? 0 : pager.pageCount() - 1;
+        Page page = pager.get(pageId);
+        if (page.isFull()) {
+            page = pager.get(pageId + 1);
+        }
+        return page;
     }
 
     public List<T> getAll() {
-        return pages.stream()
-                .map(p -> p.readChunks(recordSize()))
+        return IntStream.range(0, pager.pageCount())
+                .mapToObj(pager::get)
+                .map(page -> page.readChunks(recordSize()))
                 .flatMap(Collection::stream)
                 .map(this::deserialize)
                 .collect(Collectors.toList());
     }
 
     public Metadata getMetadata() {
-        return new Metadata(pages.size(), records);
+        return new Metadata(pager.pageCount(), pager.recordCount());
     }
 
     protected abstract T deserialize(byte[] bytes);
@@ -45,13 +47,7 @@ public abstract class Storage<T> {
 
     protected abstract int recordSize();
 
-    private void increaseRecords() {
-        records++;
-    }
-
-    private void ensureSpace(int size) {
-        if (pages.getLast().insufficientSpace(size)) {
-            pages.add(new Page(pageSize));
-        }
+    public void persist() {
+        this.pager.persist();
     }
 }

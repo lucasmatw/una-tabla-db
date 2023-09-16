@@ -88,6 +88,7 @@ public class UnaTablaVM implements VirtualMachine {
     }
 
     private ExecutionState executeExit() {
+        personStorage.persist();
         return ExecutionState.terminate("Terminado");
     }
 }

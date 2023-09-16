@@ -13,7 +13,7 @@ class PageTest {
     @DisplayName("despues de guardar 2 bytes, y leer chunk de 2 bytes, deberia retornar solo un chunk")
     void testReadChunks() {
         // given
-        Page page = new Page(10);
+        Page page = new Page(10, 10);
 
         byte[] bytes = new byte[]{1, 1};
 
@@ -30,7 +30,7 @@ class PageTest {
     @DisplayName("despues de guardar 4 bytes, y leer chunk de 2 bytes, deberia retornar 2 chunks")
     void testReadTwoChunks() {
         // given
-        Page page = new Page(10);
+        Page page = new Page(10, 10);
 
         byte[] bytes = new byte[]{1, 1};
 

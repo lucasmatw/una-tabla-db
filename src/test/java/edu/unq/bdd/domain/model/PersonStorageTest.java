@@ -1,12 +1,17 @@
 package edu.unq.bdd.domain.model;
 
 import edu.unq.bdd.domain.virtualmachine.persistence.Metadata;
+import edu.unq.bdd.domain.virtualmachine.persistence.Pager;
+import edu.unq.bdd.domain.virtualmachine.persistence.file.BinaryFileConnection;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
 
 import static edu.unq.bdd.domain.model.PersonStorage.ID_FIELD_SIZE;
 import static edu.unq.bdd.domain.model.PersonStorage.USUARIO_FIELD_SIZE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 
 class PersonStorageTest {
 
@@ -14,7 +19,7 @@ class PersonStorageTest {
     @DisplayName("Serializar Person a bytes")
     void serializeOk() {
         // given
-        PersonStorage personStorage = new PersonStorage(500);
+        PersonStorage personStorage = new PersonStorage(null);
 
         Person person = new Person(100, "a", "e");
 
@@ -31,7 +36,7 @@ class PersonStorageTest {
     @DisplayName("Serializar y deserializar una Person")
     void serializeAndDeserializeOk() {
         // given
-        PersonStorage personStorage = new PersonStorage(500);
+        PersonStorage personStorage = new PersonStorage(null);
 
         Person person = new Person(5000, "lucas", "lucas@unq.com");
 
@@ -47,7 +52,9 @@ class PersonStorageTest {
     @DisplayName("Sumar una Page si corresponde")
     void increasePage() {
         // given
-        PersonStorage personStorage = new PersonStorage(500);
+        BinaryFileConnection binaryFileConnection = mock(BinaryFileConnection.class);
+        Pager pager = new Pager(PersonStorage.RECORD_SIZE, 500, binaryFileConnection, new HashMap<>());
+        PersonStorage personStorage = new PersonStorage(pager);
 
         Person person = new Person(1, "a", "e");
 
@@ -57,15 +64,17 @@ class PersonStorageTest {
 
         // then
         Metadata metadata = personStorage.getMetadata();
-        assertEquals(2, metadata.pages());
-        assertEquals(2, metadata.records());
+        assertEquals(2, metadata.pages(), "invalid pages");
+        assertEquals(2, metadata.records(), "invalid records");
     }
 
     @Test
     @DisplayName("Sumar 3 Pages")
     void increaseThreePage() {
         // given
-        PersonStorage personStorage = new PersonStorage(291);
+        BinaryFileConnection binaryFileConnection = mock(BinaryFileConnection.class);
+        Pager pager = new Pager(PersonStorage.RECORD_SIZE, 500, binaryFileConnection, new HashMap<>());
+        PersonStorage personStorage = new PersonStorage(pager);
 
         Person person = new Person(1, "a", "e");
 
@@ -77,7 +86,7 @@ class PersonStorageTest {
 
         // then
         Metadata metadata = personStorage.getMetadata();
-        assertEquals(4, metadata.pages());
-        assertEquals(4, metadata.records());
+        assertEquals(4, metadata.pages(), "invalid pages");
+        assertEquals(4, metadata.records(), "invalid records");
     }
 }

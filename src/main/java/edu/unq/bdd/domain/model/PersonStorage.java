@@ -1,6 +1,7 @@
 package edu.unq.bdd.domain.model;
 
 import at.favre.lib.bytes.Bytes;
+import edu.unq.bdd.domain.virtualmachine.persistence.Pager;
 import edu.unq.bdd.domain.virtualmachine.persistence.Storage;
 import lombok.SneakyThrows;
 
@@ -9,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class PersonStorage extends Storage<Person> {
 
-    private static final int RECORD_SIZE = 291;
+    public static final int RECORD_SIZE = 291;
 
     protected static final int USUARIO_FIELD_SIZE = 32;
     protected static final int EMAIL_FIELD_SIZE = 253;
@@ -17,8 +18,8 @@ public class PersonStorage extends Storage<Person> {
 
     private static final byte NUL_DELIMITER = 0;
 
-    public PersonStorage(int pageSize) {
-        super(pageSize);
+    public PersonStorage(Pager pager) {
+        super(pager);
     }
 
     @Override

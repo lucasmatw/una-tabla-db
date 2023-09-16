@@ -1,5 +1,3 @@
-
-
 # Una Tabla DB
 
 Base de datos relacional simple y limitada a una única tabla.

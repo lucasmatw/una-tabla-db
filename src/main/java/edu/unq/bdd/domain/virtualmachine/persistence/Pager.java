@@ -56,13 +56,7 @@ public class Pager {
     }
 
     public Page get(int pageId) {
-        Page page = pageCache.get(pageId);
-        if (page == null) {
-            page = getUnachedPage(pageId);
-            pageCache.put(pageId, page);
-        }
-
-        return page;
+        return pageCache.computeIfAbsent(pageId, this::getUnachedPage);
     }
 
     private Page getUnachedPage(int pageId) {

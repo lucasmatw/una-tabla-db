@@ -28,4 +28,12 @@ chmod +x run.sh
 ./run.sh
 ```
 
+3. Opcional: `run.sh` puede recibir un argumento que representa el archivo de la base de datos.
+
+    ```bash
+    ./run.sh /path/to/db/file
+    ```
+   
+Aclaración: se hace una copia del archivo y se lleva a la imagen de docker. El archivo original no se modifica.
+
 El `run.sh` hace el build de la imagen y la corre en un container.
